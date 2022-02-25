@@ -11,22 +11,26 @@ const searchButtton = () =>{
         alert('PLease Enter a NUmber');
         error.innerText = "PLease Give a Number"
         input.value="";
+        main.innerHTML="";
     }
     else if (inputValue <= 0){
         alert('PLease Give a Positive Number');
         error.innerText = "PLease Give a Positive Number"
         input.value="";
+        main.innerHTML="";
     }
     else if (inputValue >= 53){
         alert('Card limit in 52');
         error.innerText = "Card LImit 52"
         input.value="";
+        main.innerHTML="";
     }
     else{
         fetch(`https://deckofcardsapi.com/api/deck/new/draw/?count=${inputValue}`)
         .then(res => res.json())
         .then(data => cardsDisplay(data.cards))
         input.value="";
+        error.innerHTML="";
     }
 
 }
