@@ -29,6 +29,7 @@ const searchButtton = () =>{
         fetch(`https://deckofcardsapi.com/api/deck/new/draw/?count=${inputValue}`)
         .then(res => res.json())
         .then(data => cardsDisplay(data.cards))
+        main.innerHTML="";
         input.value="";
         error.innerHTML="";
     }
@@ -41,7 +42,7 @@ const cardsDisplay = (cards) =>{
         const div = document.createElement('div');
         div.classList.add("col-lg-4")
         div.classList.add("mb-5")
-        console.log(card.image)
+        // console.log(card.image)
         div.innerHTML=`
         <div class="card" style="width: 18rem;">
         <img src="${card.image}" class="card-img-top" alt="...">
@@ -49,12 +50,34 @@ const cardsDisplay = (cards) =>{
             <h5 class="card-title">Name :${card.suit}</h5>
             <p class="card-text">Value : ${card.value}</p>
             <p class="card-text">Code : ${card.code}</p>
+            <button onclick="cardDetails('${card.code}')" class="btn btn-primary">See Details</button>
         </div>
         </div>
         `;
-        console.log(card);
+        // console.log(card);
         main.appendChild(div)
     }
     
 }
 
+const cardDetails = (code) =>{
+    fetch(`https://deckofcardsapi.com/api/deck/new/draw/?count=52`)
+    .then(res => res.json())
+    .then(data => {
+        const allCards = data.cards;
+        const singleCard = allCards.find(card => card.code == code)
+        const div = document.createElement('div');
+        main.innerHTML = "";
+        div.innerHTML = 
+        `<div class="card" style="width: 18rem;">
+        <img src="${singleCard.image}" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">Name :${singleCard.suit}</h5>
+            <p class="card-text">Value : ${singleCard.value}</p>
+            <p class="card-text">Code : ${singleCard.code}</p>
+        </div>
+        </div>
+        `;
+        main.appendChild(div)
+    })
+}
